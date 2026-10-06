@@ -61,6 +61,11 @@
 
   /* Hero */
   header { padding: 96px 0 72px; }
+  .hero { display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: center; }
+  .portrait {
+    display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
+    border-radius: 12px; border: 1px solid var(--line);
+  }
   .eyebrow {
     font-size: 14px; text-transform: uppercase; letter-spacing: 0.12em;
     color: var(--muted); margin-bottom: 16px;
@@ -130,6 +135,8 @@
     nav ul { gap: 14px; font-size: 14px; }
     nav ul li.hide-sm { display: none; }
     header { padding: 64px 0 48px; }
+    .hero { grid-template-columns: 1fr; gap: 28px; }
+    .portrait { width: 140px; }
     .item { grid-template-columns: 1fr; gap: 2px; }
   }
 </style>
@@ -150,7 +157,9 @@
 </nav>
 
 <header id="top">
-  <div class="wrap">
+  <div class="wrap hero">
+    <img class="portrait" src="assets/bild_utnarm.jpg" alt="Daniel Alariksson" width="auto" height="auto">
+    <div>
     <p class="eyebrow">Uppsala / Stockholm, Sweden</p>
     <h1>Daniel Alariksson</h1>
     <p class="lead">
@@ -163,6 +172,7 @@
       <!-- TODO: replace with your real profile URLs -->
       <a class="btn" href="https://www.linkedin.com/in/YOUR-LINKEDIN" target="_blank" rel="noopener">LinkedIn</a>
       <a class="btn" href="https://github.com/YOUR-GITHUB" target="_blank" rel="noopener">GitHub</a>
+    </div>
     </div>
   </div>
 </header>

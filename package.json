@@ -1,0 +1,7 @@
+{
+  "name": "danielalariksson01.github.io",
+  "private": true,
+  "scripts": {
+    "dev": "node dev-server.js"
+  }
+}
