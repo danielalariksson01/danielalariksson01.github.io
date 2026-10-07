@@ -19,13 +19,18 @@ const types = {
   '.jpeg': 'image/jpeg',
   '.gif': 'image/gif',
   '.webp': 'image/webp',
+  '.avif': 'image/avif',
   '.ico': 'image/x-icon',
   '.pdf': 'application/pdf',
   '.woff2': 'font/woff2',
+  '.txt': 'text/plain; charset=utf-8',
+  '.xml': 'application/xml',
+  '.webmanifest': 'application/manifest+json',
 };
 
-const reloadScript =
-  "<script>new EventSource('/__reload').onmessage = () => location.reload();</script>";
+// Served as an external file so it passes the page's Content-Security-Policy.
+const reloadScript = '<script src="/__reload.js"></script>';
+const reloadClient = "new EventSource('/__reload').onmessage = () => location.reload();";
 const clients = new Set();
 
 const server = http.createServer((req, res) => {
@@ -43,6 +48,11 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  if (urlPath === '/__reload.js') {
+    res.writeHead(200, { 'Content-Type': 'text/javascript; charset=utf-8' }).end(reloadClient);
+    return;
+  }
+
   let file = path.join(root, urlPath);
   if (!file.startsWith(root)) {
     res.writeHead(403).end('Forbidden');
@@ -53,10 +63,19 @@ const server = http.createServer((req, res) => {
   }
 
   fs.readFile(file, (err, data) => {
+    let status = 200;
     if (err) {
-      res.writeHead(404, { 'Content-Type': 'text/plain' }).end('404 Not Found');
-      return;
+      // Mirror GitHub Pages: serve the custom 404 page if there is one.
+      file = path.join(root, '404.html');
+      try {
+        data = fs.readFileSync(file);
+      } catch {
+        res.writeHead(404, { 'Content-Type': 'text/plain' }).end('404 Not Found');
+        return;
+      }
+      status = 404;
     }
+    res.statusCode = status;
     const ext = path.extname(file).toLowerCase();
     res.setHeader('Content-Type', types[ext] || 'application/octet-stream');
     res.setHeader('Cache-Control', 'no-store');

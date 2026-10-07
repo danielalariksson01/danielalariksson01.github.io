@@ -1,0 +1,4 @@
+Contact: mailto:daniel.alariksson@gmail.com
+Expires: 2027-10-07T00:00:00.000Z
+Preferred-Languages: sv, en
+Canonical: https://danielalariksson.se/.well-known/security.txt

@@ -1,0 +1,11 @@
+# GitHub Pages (Jekyll) build settings.
+# Keep local development files off the public site.
+exclude:
+  - README.md
+  - package.json
+  - package-lock.json
+  - dev-server.js
+  - node_modules
+# Dot-folders are skipped by default; publish security.txt.
+include:
+  - .well-known
